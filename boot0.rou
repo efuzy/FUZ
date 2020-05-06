@@ -1,0 +1,23 @@
+ ; Initial boot routine 
+ ; 
+boot0
+imp(fname)
+ n head,rouname,line,tmp,size=0
+ s fname="|FILE|"_fname
+ o fname:("rte"):1 e  q 
+ u fname
+ r head,head
+ f  r rouname q:rouname=""  d
+ . k ^$R(rouname)
+ . u 0 w "import ",rouname,! u fname
+ . f  r line q:line=""  s ^ROUTINE(rouname,$i(^ROUTINE(rouname)))=line,size=size+$l(line)
+ . s ^ROUTINE(rouname,0)=$h
+ . s $p(^ROUTINE(rouname),",",2)=size
+ . u 0
+ . s tmp=$v("rou","c",rouname)
+ . u fname
+ . i tmp q
+ u 0 c fname
+ q
+
+
